@@ -15,11 +15,10 @@ def fetch():                              #Request specific animal data
         print(jsonData)
         data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\database\\animal_locations.csv")
         key = jsonData["key"]
-        print("KEYS", key)
-        animal = data["animal"][key]
-        print("ANIMAL", animal)
         return {
-            'response' : animal
+            'species' : data["animal"][key],
+            'type' : data["type"][key],
+            'extra_info' : data["info"][key]
         }
     return render_template("Home.html")
 
@@ -27,7 +26,7 @@ def fetch():                              #Request specific animal data
 def all_data():                              #Request specific animal data
     if request.method == "POST":
         data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\database\\animal_locations.csv")
-        print(data)
+        data.drop("info", axis = 1, inplace = True)
         data_json = data.to_json(None, indent = 1, orient = 'records')
         print(data_json)
         return data_json

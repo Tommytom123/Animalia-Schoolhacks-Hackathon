@@ -135,7 +135,7 @@
                           .then(function(data) {
                               console.log(data);
                               for (let i = 0; i < data.length; i++) { //For each of the values create a pointer on the map
-                                addDomMarker(map,data[i]["latitude"],data[i]["longitude"],data[i]["key"]) //map, lat, long, key
+                                addDomMarker(map,data[i]["latitude"],data[i]["longitude"],data[i]["key"],data[i]["type"]) //map, lat, long, key, type
                               }
                           });
                           
@@ -181,7 +181,7 @@
                 var ui = H.ui.UI.createDefault(map, maptypes);      
                 
                 
-                function addDomMarker(map, lat, long, key) {
+                function addDomMarker(map, lat, long, key, type) {
                   var outerElement = document.createElement('div'),
                       innerElement = document.createElement('div');
 
@@ -190,9 +190,17 @@
                   outerElement.style.msUserSelect = 'none';
                   outerElement.style.mozUserSelect = 'none';
                   outerElement.style.cursor = 'default';
-
+                  
                   innerElement.style.color = 'red';
-                  innerElement.style.backgroundColor = 'blue';
+                  if (type == "animal"){
+                    innerElement.style.backgroundColor = 'blue';
+                    
+                    innerElement.innerHTML = 'A';
+                  } else {
+                    innerElement.style.backgroundColor = 'green';
+
+                    innerElement.innerHTML = 'P';
+                  }
                   innerElement.style.border = '2px solid black';
                   innerElement.style.font = 'normal 12px arial';
                   innerElement.style.lineHeight = '12px'
@@ -202,15 +210,11 @@
                   innerElement.style.width = '20px';
                   innerElement.style.height = '20px';
 
-                  // add negative margin to inner element
-                  // to move the anchor to center of the div
                   innerElement.style.marginTop = '-10px';
                   innerElement.style.marginLeft = '-10px';
 
                   outerElement.appendChild(innerElement);
 
-                  // Add text to the DOM element
-                  innerElement.innerHTML = 'A';
 
                   function changeOpacity(evt) {
                     evt.target.style.opacity = 0.6;
@@ -265,7 +269,8 @@
                               console.log(response);
                               
                               modal_title = document.getElementById("modal_title");
-                              modal_title.innerHTML = response["response"]
+                              modal_title.innerHTML = response["species"]
+
                           });
                       }
                       else {
