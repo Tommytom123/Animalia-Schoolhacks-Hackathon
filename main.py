@@ -14,9 +14,9 @@ def fetch():                              #Request specific animal data
         jsonData = request.get_json()
         print(jsonData)
         data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\database\\animal_locations.csv")
-        key = data["key"]
+        key = jsonData["key"]
         print("KEYS", key)
-        animal = data["animal"][key-1]
+        animal = data["animal"][key]
         print("ANIMAL", animal)
         return {
             'response' : animal
