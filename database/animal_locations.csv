@@ -1,2 +1,4 @@
-key,animal,latitude,longitude
-0,tom,52.0413994,4.2238936
+key,animal,latitude,longitude,type
+0,tom,52.0413994,4.2238936,animal
+1,bilbo,5,131,plant
+2,bob,15.13,1,animal

@@ -113,7 +113,44 @@
                   long = position.coords.longitude;
                   map.setCenter({lat:lat, lng:long});
                   map.setZoom(12);
-                  addDomMarker(map)
+
+                  fetch('/all_data', {
+                      headers : {
+                          'Content-Type' : 'application/json'
+                      },
+                      method : 'POST',
+                      body : JSON.stringify( {
+                          'data_request' : null
+                      })
+                  })
+                  .then(function (data){
+
+                      if(data.ok) {   //Getting the CSV values
+                        key_list = [];
+                        animals_list = [];
+                        lats_list = [];
+                        longs_list = [];
+                        types_list = [];
+                        data.json()
+                          .then(function(data) {
+                              console.log(data);
+                              for (let i = 0; i < data.length; i++) { //For each of the values create a pointer on the map
+                                addDomMarker(map,data[i]["latitude"],data[i]["longitude"],data[i]["key"]) //map, lat, long, key
+                              }
+                          });
+                          
+                      }
+                      else {
+                          throw Error('Something went wrong');
+                      }
+                  })
+                  .catch(function(error) {
+                      console.log(error);
+                  });
+
+
+
+                  
                 }
                 lat = 0
                 long = 0
@@ -143,8 +180,8 @@
                 var behavior = new H.mapevents.Behavior(mapEvents);
                 var ui = H.ui.UI.createDefault(map, maptypes);      
                 
-
-                function addDomMarker(map) {
+                
+                function addDomMarker(map, lat, long, key) {
                   var outerElement = document.createElement('div'),
                       innerElement = document.createElement('div');
 
@@ -189,7 +226,7 @@
                     onAttach: function(clonedElement, domIcon, domMarker) {
                       clonedElement.addEventListener('mouseover', changeOpacity);
                       clonedElement.addEventListener('mouseout', changeOpacityToOne);
-                      clonedElement.addEventListener('click', popup_info); //When the element is clicked bring up a popup with the details about the animal or plant
+                      clonedElement.addEventListener('click', function(){ popup_info(key)}); //When the element is clicked bring up a popup with the details about the animal or plant
                     },
                     // the function is called every time marker leaves the viewport
                     onDetach: function(clonedElement, domIcon, domMarker) {
@@ -217,7 +254,7 @@
                       },
                       method : 'POST',
                       body : JSON.stringify( {
-                          'key' : 0
+                          'key' : key
                       })
                   })
                   .then(function (response){
