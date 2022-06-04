@@ -1,25 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
-import csv
+from csv import writer
 from animalia import app
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def home():                              
-    if request.method == "POST":
-        # key,species,latitude,longitude,type,info
-        print("i got here wooohoo")
-        print(request.form["species"])
-        csv.writer(open("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv", "a+")).writerow(
-            [
-                3,
-                request.form["species"],
-                request.form["lat"],
-                request.form["long"],
-                request.form["animal"],
-                request.form["description"]
-            ]
-        )
-        return render_template("Home.html")
     return render_template("Home.html")
 
 @app.route("/fetch", methods=["GET", "POST"])
@@ -45,3 +30,19 @@ def all_data():                              #Request specific animal data
         #print(data_json)
         return data_json
     return render_template("Home.html")      
+
+@app.route("/submit", methods=["GET", "POST"])
+def submit():                              #Request specific animal data
+    if request.method == "POST":
+        print("Arrived")
+        data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv")
+        with open("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv", 'a') as f_object:
+            writer_object = writer(f_object)
+            jsonData = request.get_json()
+            print(jsonData)
+            data_list = [len(data["key"]),jsonData["species"],jsonData["lat"],jsonData["long"],jsonData["type"],jsonData["description"]]
+            writer_object.writerow(data_list)
+            f_object.close()
+
+        return "success"
+    return render_template("Home.html")

@@ -11,7 +11,6 @@ Put usernames and passwords into SQL database </br>
 Put animal location and type in the CSV file (Comma seperated value) so we can easily run ML </br>
 
 What currently needs to be done: </br>
-Login system</br>
 Allow users to place their own markers</br>
 ML setup </br>
 finsihing touches </br>
