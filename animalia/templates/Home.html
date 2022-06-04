@@ -51,7 +51,7 @@
               <input type="text" class="form-control" placeholder="Species" aria-label="species" aria-describedby="button-addon2" id="species">
               <button class="btn btn-outline-secondary" style="width: 15%;" onclick="tgl_btn()" id="type">Type</button>
             </div>
-            <input type="text" class="form-control mb-2" placeholder="Description" aria-label="description" aria-describedby="button-addon2" id="description">
+            <textarea type="text" class="form-control mb-2" placeholder="Description" aria-label="description" aria-describedby="button-addon2" id="description"></textarea>
             <div class="input-group mb-2">
               <input type="text" class="form-control" placeholder="Latitude" aria-label="lat" aria-describedby="button-addon2" id="lat">
               <input type="text" class="form-control" placeholder="Longitude" aria-label="long" aria-describedby="button-addon2" id="long">
@@ -175,7 +175,7 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Statistics</a></li>
                 <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                <li class="breadcrumb-item"><a href="#">Download</a></li>
+                <li class="breadcrumb-item"><a href="./database/animal_locations.csv" download="animal_locations.csv">Download</a></li> <!--Somehow doesn't work, probably because the file is not uploaded correctly-->
               </ol>
             </nav>
             
