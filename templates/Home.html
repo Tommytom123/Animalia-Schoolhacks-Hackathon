@@ -178,6 +178,20 @@
                 map.addEventListener('tap', function(evt) {
                   console.log(evt.type, evt.currentPointer.type); 
                 });
+                
+                map.addEventListener('mapviewchangeend', function(){
+                  console.log(map.getZoom())
+                  if (map.getZoom() < 8){
+                    console.log("TOO BIG")
+                    for (i in map.getObjects()) {
+                      map.getObjects()[i].setVisibility(false);
+                    }     
+                  } else{
+                    for (i in map.getObjects()) {
+                      map.getObjects()[i].setVisibility(true);
+                    }
+                  }
+                })
 
                 var behavior = new H.mapevents.Behavior(mapEvents);
                 var ui = H.ui.UI.createDefault(map, maptypes);      
