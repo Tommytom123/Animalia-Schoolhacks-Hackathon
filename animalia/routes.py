@@ -1,3 +1,4 @@
+from typing import KeysView
 from flask import Flask, render_template, request, jsonify
 import pandas as pd
 from csv import writer
@@ -45,4 +46,19 @@ def submit():                              #Request specific animal data
             f_object.close()
 
         return "success"
+    return render_template("Home.html")
+
+@app.route("/search", methods=["GET", "POST"])
+def search():                              #Search for all occurences of animal 
+    if request.method == "POST":
+        keys_list = []
+        jsonData = request.get_json()
+        csv_data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv")
+        for x in range(len(csv_data["keys"])):
+            if jsonData["species"] == csv_data[x]["species"]:
+                keys_list.append(x)
+                keys_list.to_json(None, indent = 1, orient = 'records')
+        return {
+            'keys' : keys_list
+        }
     return render_template("Home.html")

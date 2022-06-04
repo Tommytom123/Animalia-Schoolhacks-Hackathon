@@ -30,9 +30,6 @@
     }
 
     </style>
-  <script>
-    
-  </script>
   </head>
   <body style="overflow: hidden; background-color: #aed8ff54;">
    
@@ -153,8 +150,8 @@
             </form>
             <button class="btn btn-outline-secondary mb-3" style="width: 100%;">Predict suitable locations</button>
             <button class="btn btn-outline-secondary mb-3" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#submit_sighting">Submit Sighting</button> <br>
-            
-            <table class="table">
+            <div style="max-height: 90vh; overflow-y: auto;">
+            <table class="table" >
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -162,19 +159,19 @@
                   <th scope="col">Go To</th>
                 </tr>
               </thead>
-              <tbody id="table_rand_anims">
+              <tbody id="table_rand_anims" >
 
                 <!--This table is populated by function-->
 
               </tbody>
             </table>
-
+          </div>
           
             <font class="" size="3%" id="location" style="width: 100%;"></font>
             <nav class="" aria-label="breadcrumb" style="padding-left: 15%; padding-right: 14%; width: 100%;">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Statistics</a></li>
-                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item"><a href="#">Statistics</a></li> <!-- Would show statistics about the quantity of pings, of which type they are and most pinged animal-->
+                <li class="breadcrumb-item"><a href="#">Admin</a></li> <!--Intended features: allow people with admin key to delete pings-->
                 <li class="breadcrumb-item"><a href="./database/animal_locations.csv" download="animal_locations.csv">Download</a></li> <!--Somehow doesn't work, probably because the file is not uploaded correctly-->
               </ol>
             </nav>
@@ -183,6 +180,10 @@
           </div>
 
         </div>
+        <script>
+          function search_species
+
+        </script>
       </div>
 
     <!--MAP-->
