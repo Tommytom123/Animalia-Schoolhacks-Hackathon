@@ -16,7 +16,7 @@ def fetch():                              #Request specific animal data
         data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\database\\animal_locations.csv")
         key = jsonData["key"]
         return {
-            'species' : data["animal"][key],
+            'species' : data["species"][key],
             'type' : data["type"][key],
             'extra_info' : data["info"][key]
         }
