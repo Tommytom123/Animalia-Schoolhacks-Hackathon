@@ -47,7 +47,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Extra information
+          <font id="ext_info"> </font>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -112,6 +112,8 @@
                   lat =position.coords.latitude;
                   long = position.coords.longitude;
                   map.setCenter({lat:lat, lng:long});
+                  var current_loc = new H.map.Marker({lat: lat, lng: long});
+                  map.addObject(current_loc);
                   map.setZoom(12);
 
                   fetch('/all_data', {
@@ -246,10 +248,9 @@
                 }
                 
                 function popup_info(key) { //Each enimal has a key/which item they are in the CSV
-                    console.log("clicked")
+                    console.log("ping clicked")
                     
                     info_popup = document.getElementById("info_popup")
-                    console.log(info_popup);
                     $("#info_popup").modal("toggle");
 
                     fetch('/fetch', {
@@ -270,6 +271,9 @@
                               
                               modal_title = document.getElementById("modal_title");
                               modal_title.innerHTML = response["species"]
+                              ext_info = document.getElementById("ext_info")
+                              ext_info.innerHTML = response["extra_info"]
+                              
 
                           });
                       }
