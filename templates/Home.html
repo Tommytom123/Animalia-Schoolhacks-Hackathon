@@ -39,19 +39,18 @@
     <!--Info popup-->
 
 
-  <div class="modal fade" id="info_popup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="info_popup" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="modal_title">{animal_name}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          ...
+          Extra information
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -212,6 +211,35 @@
                     console.log(info_popup);
                     $("#info_popup").modal("toggle");
 
+                    fetch('/fetch', {
+                      headers : {
+                          'Content-Type' : 'application/json'
+                      },
+                      method : 'POST',
+                      body : JSON.stringify( {
+                          'key' : 1
+                      })
+                  })
+                  .then(function (response){
+
+                      if(response.ok) {
+                          response.json()
+                          .then(function(response) {
+                              console.log(response);
+                              
+                              modal_title = document.getElementById("modal_title");
+                              modal_title.innerHTML = response["response"]
+                          });
+                      }
+                      else {
+                          throw Error('Something went wrong');
+                      }
+                  })
+                  .catch(function(error) {
+                      console.log(error);
+
+
+                  });
 
                 }
             </script>
