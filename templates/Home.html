@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Animalia</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js"type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js"type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css"href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+
     <style>
     .menu {
       width: 15%;
@@ -24,10 +29,9 @@
     }
 
     </style>
-    <script>
-
-
-    </script>
+  <script>
+    
+  </script>
   </head>
   <body style="overflow: hidden;">
       
@@ -38,6 +42,12 @@
           </svg>Animalia</h1>
           <div class="card-body">
             
+            
+
+            <p id="demo"></p>
+            
+            
+
             <nav aria-label="breadcrumb" style="position: absolute; bottom: 0; width: 100%;">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item active" aria-current="page">Home</li>
@@ -53,7 +63,77 @@
     <div class="main">
         <div class="card border-success" style="width: 98%; height: 98%;">
             <div class="card-body">
-                Map Location (Google maps or HERE Api)
+               
+              <div style="width: 100%; height: 100%;" id="mapContainer"></div>
+              <script>	
+                // Initialize the platform object:
+                var platform = new H.service.Platform({
+                  'apikey': 'X5taNHfxMoYunIFl7jP3AnvGhGvwKKRi8sQqRq7zorI'
+                });
+              
+                
+                var x = document.getElementById("demo");
+                  
+                function getLocation() {
+                    if (navigator.geolocation) {
+                      navigator.geolocation.getCurrentPosition(showPosition);
+                      
+                    } else { 
+                      x.innerHTML = "Geolocation is not supported by this browser.";
+                    }
+                  }
+                  
+                function showPosition(position) {
+                  x.innerHTML = "Latitude: " + position.coords.latitude + 
+                  "<br>Longitude: " + position.coords.longitude;
+                  lat =position.coords.latitude;
+                  long = position.coords.longitude;
+                  map.setCenter({lat:lat, lng:long});
+                  map.setZoom(14);
+                }
+              lat = 0
+                long = 0
+               getLocation();
+
+
+            // Obtain the default map types from the platform object
+                var maptypes = platform.createDefaultLayers();
+                
+                // Initialize a map:
+                var map = new H.Map(
+                  document.getElementById('mapContainer'),
+                  maptypes.raster.terrain.map,
+                  {
+                    zoom: 10,
+                    center: { lat: lat, lng: long }  
+                  });
+                  
+                  window.addEventListener('resize', function () {
+                      map.getViewPort().resize(); 
+                  });
+              
+            // Enable the event system on the map instance:
+              var mapEvents = new H.mapevents.MapEvents(map);
+            
+            // Add event listener:
+              map.addEventListener('tap', function(evt) {
+              // Log 'tap' and 'mouse' events:
+                console.log(evt.type, evt.currentPointer.type); 
+            });
+            
+            // Instantiate the default behavior, providing the mapEvents object:
+             var behavior = new H.mapevents.Behavior(mapEvents);
+            
+            //window.addEventListener('resize',()=> get.ViewProt().resize())
+            var marker = new H.map.Marker({ lat: lat, lng: long });
+              
+            // Add the marker to the map:
+            map.addObject(marker);
+            
+            // Create the default UI:
+            var ui = H.ui.UI.createDefault(map, maptypes);            
+            </script>
+      
             </div>
         </div>
     </div>
