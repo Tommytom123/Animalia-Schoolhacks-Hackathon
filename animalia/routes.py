@@ -57,18 +57,21 @@ def search():                              #Search for all occurences of animal
     if request.method == "POST":
         lat_list = []
         long_list = []
+        species_list = []
         jsonData = request.get_json()
         csv_data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv")
         for x in range(len(csv_data["key"])):
             if jsonData["species_search"] in csv_data["species"][x]:
                 lat_list.append(csv_data["latitude"][x])
                 long_list.append(csv_data["longitude"][x])
+                species_list.append(csv_data["species"][x])
         #keys_list.to_json(None, indent = 1, orient = 'records')
         if len(lat_list) > 21: #If the list is too large, get random values
-            random.seed(random.randint(1,10000))#We need to create a seed so both the .choice functions result in the same index
-            lat_list = random.sample(lat_list, 21)
-            long_list = random.sample(long_list, 21)
+            combined = list(zip(lat_list, long_list, species_list))
+            random.shuffle(combined)
+            lat_list, long_list, species_list = zip(*combined)
         return {
+            'species' : species_list,
             'lats' : lat_list,
             'longs' : long_list
         }

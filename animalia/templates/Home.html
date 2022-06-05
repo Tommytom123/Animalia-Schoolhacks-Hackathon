@@ -54,9 +54,8 @@
               <input type="text" class="form-control" placeholder="Longitude" aria-label="long" aria-describedby="button-addon2" id="long">
               <button class="btn btn-outline-secondary" style="width: 15%;" onclick="autofill()" id="type">Auto</button>
             </div>
-            <div>
-              <input type="date" class="form-control" aria-label="long" id="date">   <!--This unfortunatly is in MM/DD/YYYY-->
-            </div>
+            <input type="date" class="form-control mb-2" aria-label="long" id="date">   <!--This unfortunatly is in MM/DD/YYYY-->
+            <input class="form-control mb-2" type="file" id="formFile">
 
 
           </div>
@@ -134,11 +133,64 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <font id="ext_info"> </font>
-          <img class="border border-secondary rounded-3 img-fluid" src="https://media.4-paws.org/9/1/2/b/912b8bb5c677185860738b3632448e3897cb4d8c/IMG_20190721_172032-2976x2060.jpg">
+          <font  id="ext_info"> </font>
+          <img class="border border-secondary rounded-3 img-fluid" style="margin-top: 5%;" src="https://media.4-paws.org/9/1/2/b/912b8bb5c677185860738b3632448e3897cb4d8c/IMG_20190721_172032-2976x2060.jpg">
         </div>
         <div class="modal-footer hstackjustify-content-start">
             <font class="" size="3%" id="long_lat_ping" style="width: 80%;"></font>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- More info on this specific animal-->
+  <div class="modal fade" id="spec_anim_data" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background: #c5e0acb7 ;">
+          <h5 class="modal-title" id="spec_anim_header">Yellow Water-Lily</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <table class="table table-striped-columns">
+            <thead>
+              <tr>
+                <th scope="col">Yearly</th>
+                <th scope="col">Minimum</th>
+                <th scope="col">Average</th>
+                <th scope="col">Maximum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Temperature</th>
+                <td>13C</td>
+                <td>17C</td>
+                <td>25C</td>
+              </tr>
+              <tr>
+                <th scope="row">Humidity</th>
+                <td>30%</td>
+                <td>75.3%</td>
+                <td>80.3%</td>
+              </tr>
+              <tr>
+                <th scope="row">Precipitation</th>
+                <td>205 mm</td>
+                <td>452 mm</td>
+                <td>843 mm</td>
+
+              </tr>
+            </tbody>
+
+          </table>
+
+            Most common continent: Europe <br>
+            Most common country: Netherlands <br>
+        </div>
+        <div class="modal-footer hstackjustify-content-start">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
       </div>
@@ -161,6 +213,8 @@
           There currently are more plants than animals <br>
           The continent with the most sightings: Europe <br>
           The country with the most sightings: Germany <br>
+          <br>
+          <a href="https://github.com/Tommytom123/Animalia-Schoolhacks-Hackathon">Github Repository</a>
         </div>
         <div class="modal-footer hstackjustify-content-start">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -180,10 +234,10 @@
                 <input type="text" class="form-control" placeholder="Search Species" id="search_input" aria-label="search_input" aria-describedby="basic-addon2">
                 <button class="btn btn-outline-secondary" type="button" onclick="search_species()">Search</button>
               </div>
-            <button class="btn btn-outline-secondary mb-3" style="width: 100%;">Predict suitable locations</button>
+            <button class="btn btn-outline-secondary mb-3" style="width: 100%;" onclick="show_specific_info()">More info on this species</button>
             <button class="btn btn-outline-secondary mb-3" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#submit_sighting">Submit Sighting</button> <br>
             <div style="max-height: 90vh; overflow-y: auto;">
-            <table class="table" >
+            <table class="table">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -191,7 +245,7 @@
                   <th scope="col">Go To</th>
                 </tr>
               </thead>
-              <tbody id="table_rand_anims" >
+              <tbody id="table_rand_anims">
 
                 <!--This table is populated by function-->
 
@@ -214,6 +268,11 @@
 
         </div>
         <script>
+          function show_specific_info() {
+            spec_anim_data = document.getElementById("spec_anim_data");
+            $("#spec_anim_data").modal("toggle");
+          }
+
           function show_stats() {
             stat_popup = document.getElementById("stat_popup");
             $("#stat_popup").modal("toggle");
@@ -239,8 +298,9 @@
                             document.getElementById("table_title").innerHTML = "Searched animals";
                             table = document.getElementById("table_rand_anims");
                             table.innerHTML = "";
-                            for (let i = 0; i<data["lats"].length; i++){
-                              table.innerHTML += "<tr><th scope=\"row\">"+ (i+1) +"</th> <td>"+ search_value +"</td> <td><a href=\"#\" onclick=\"zoom_to_loc("+ data["lats"][i] +","+ data["longs"][i] +")\">Find</a></td></tr>";
+                            
+                            for (let i = 0; i<21; i++){
+                              table.innerHTML += "<tr><th scope=\"row\">"+ (i+1) +"</th> <td>"+ data["species"][i] +"</td> <td><a href=\"#\" onclick=\"zoom_to_loc("+ data["lats"][i] +","+ data["longs"][i] +")\">Find</a></td></tr>";
                             }
                             map.setCenter({lat: data["lats"][0],lng: data["longs"][0]})
                           });
@@ -475,7 +535,7 @@
                               info_title.innerHTML = response["species"] + "       (" + response["date"] + ")";
                               console.log(response["type"])
                               if (response["type"] == "Animal"){
-                                title_bg.style.backgroundColor = "#FB6D4E";
+                                title_bg.style.backgroundColor = "#FFCCCB";
                               } else {
                                 title_bg.style.backgroundColor = "#bcdba1";
                               }
