@@ -145,6 +145,30 @@
     </div>
   </div>
 
+  <!--Statistics Modal-->
+
+  <div class="modal fade" id="stat_popup" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" id="stat_bg" style="background: #d6d6d6 ;">
+          <h5 class="modal-title" id="stat_header">Statistics</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Current amount of animals in this database: 1000 <br>
+          Most occuring animal: Rabbit <br>
+          Most occuring plant: Daisy <br>
+          There currently are more plants than animals <br>
+          The continent with the most sightings: Europe <br>
+          The country with the most sightings: Germany <br>
+        </div>
+        <div class="modal-footer hstackjustify-content-start">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
+
     <!--Side Bar-->
     <div class="menu">
         <div class="card border-secondary" style="width: 100%; height: 98%;">
@@ -178,7 +202,7 @@
           <div class="justify-content-center" >
             <nav aria-label="breadcrumb" style="padding-left: 15%; padding-right: 14%; width: 100%; position: absolute; bottom: 0 ">
               <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Statistics</a></li> <!-- Would show statistics about the quantity of pings, of which type they are and most pinged animal-->
+                <li class="breadcrumb-item"><a href="#" onclick="show_stats()">Statistics</a></li> <!-- Would show statistics about the quantity of pings, of which type they are and most pinged animal-->
                 <li class="breadcrumb-item"><a href="#">Admin</a></li> <!--Intended features: allow people with admin key to delete pings-->
                 <li class="breadcrumb-item"><a href="./database/animal_locations.csv" download="animal_locations.csv">Download</a></li> <!--Somehow doesn't work, probably because the file is not uploaded correctly-->
               </ol>
@@ -190,6 +214,11 @@
 
         </div>
         <script>
+          function show_stats() {
+            stat_popup = document.getElementById("stat_popup");
+            $("#stat_popup").modal("toggle");
+          }
+
           function search_species(){
             search_value = document.getElementById("search_input").value;
             if (/^\s*$/.test(search_value) != true){ // Checks if the search isn't empty or full of whitespaces
@@ -473,8 +502,6 @@
              </div>
         </div>
     </div>
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
   </body>
 </html>
