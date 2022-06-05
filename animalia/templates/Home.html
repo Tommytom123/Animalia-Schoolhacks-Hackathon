@@ -136,13 +136,40 @@
           <font  id="ext_info"> </font>
           <img class="border border-secondary rounded-3 img-fluid" style="margin-top: 5%;" src="https://s3-alpha.figma.com/hub/file/948140848/1f4d8ea7-e9d9-48b7-b70c-819482fb10fb-cover.png">
         </div>
-        <div class="modal-footer hstackjustify-content-start">
+        <div class="modal-footer hstack justify-content-start">
             <font class="" size="3%" id="long_lat_ping" style="width: 80%;"></font>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
           </div>
       </div>
     </div>
   </div>
+
+  <!--ADMIN popup-->
+
+    <div class="modal fade" id="admin_popup" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color: #FFCCCB;">
+            <h5 class="modal-title" id="admin_title">ADMIN</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <input type="text" placeholder="Username" class="form-control">
+              <input type="password" placeholder="ADMIN Key" class="form-control">
+              <button type="button" class="btn btn-outline-secondary" onclick="ADMIN_LOGIN()">Login</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+    </script>
 
   <!-- More info on this specific animal-->
   <div class="modal fade" id="spec_anim_data" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
@@ -257,7 +284,7 @@
             <nav aria-label="breadcrumb" style="padding-left: 15%; padding-right: 14%; width: 100%; position: absolute; bottom: 0 ">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#" onclick="show_stats()">Statistics</a></li> <!-- Would show statistics about the quantity of pings, of which type they are and most pinged animal-->
-                <li class="breadcrumb-item"><a href="#">Admin</a></li> <!--Intended features: allow people with admin key to delete pings-->
+                <li class="breadcrumb-item"><a href="#" onclick="show_admin_popup()">Admin</a></li> <!--Intended features: allow people with admin key to delete pings-->
                 <li class="breadcrumb-item"><a href="./database/animal_locations.csv" download="animal_locations.csv">Download</a></li> <!--Somehow doesn't work, probably because the file is not uploaded correctly-->
               </ol>
             </nav>
@@ -268,6 +295,11 @@
 
         </div>
         <script>
+          function show_admin_popup() {
+            admin_popup = document.getElementById("admin_popup");
+            $("#admin_popup").modal("toggle");
+          }
+
           function show_specific_info() {
             spec_anim_data = document.getElementById("spec_anim_data");
             $("#spec_anim_data").modal("toggle");
