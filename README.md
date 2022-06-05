@@ -5,12 +5,8 @@ Contributers: Tom Brouwers, Nic Leclerq </br>
 Idea: </br>
 Create a website that can be used to track flora and fauna. Can be used to help keep control of these populations and ensure they don't go extinct. </br>
 
-
-
-Put usernames and passwords into SQL database </br>
-Put animal location and type in the CSV file (Comma seperated value) so we can easily run ML </br>
+Put animal location and type in the CSV file (Comma seperated value) for easy data proccessing </br>
 
 What currently needs to be done: </br>
 Admin Page </br>
-ML setup </br>
 finsihing touches </br>
