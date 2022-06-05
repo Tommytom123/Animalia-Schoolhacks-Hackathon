@@ -7,6 +7,3 @@ Create a website that can be used to track flora and fauna. Can be used to help 
 
 Put animal location and type in the CSV file (Comma seperated value) for easy data proccessing </br>
 
-What currently needs to be done: </br>
-Admin Page </br>
-finsihing touches </br>
