@@ -20,7 +20,9 @@ def fetch():                              #Request specific animal data
             'species' : data["species"][key],
             'type' : data["type"][key],
             'extra_info' : data["info"][key],
-            'date' : data["date"][key]
+            'date' : data["date"][key],
+            'long' : data["longitude"][key],
+            'lat' : data["latitude"][key]
         }
     return render_template("Home.html")
 

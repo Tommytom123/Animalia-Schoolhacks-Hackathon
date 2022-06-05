@@ -4,7 +4,7 @@ import random
 
 #This file fills the CSV so we have something to show
 animal_list = ["Fire Ant", "Wolf", "Fallow Deer", "Roe Deer", "Stoat", "Fire Salamander", "Ortolan Bunting", "European Viper", "Rabbit", "Hare", "Badger", "Woodpecker"]
-plant_list = ["Daisy", "Yelloow Water-Lily", "Japanese Knotweed", "Myriophyllum Verticillatum", "Gentiana Pneumonanthe"]
+plant_list = ["Daisy", "Yellow Water-Lily", "Japanese Knotweed", "Myriophyllum Verticillatum", "Gentiana Pneumonanthe"]
 
 for x in range(500): #animals
     with open("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv", 'a', newline="") as f_object:

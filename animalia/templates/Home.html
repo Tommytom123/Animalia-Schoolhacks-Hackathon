@@ -135,10 +135,12 @@
         </div>
         <div class="modal-body">
           <font id="ext_info"> </font>
+          <img class="border border-secondary rounded-3 img-fluid" src="https://media.4-paws.org/9/1/2/b/912b8bb5c677185860738b3632448e3897cb4d8c/IMG_20190721_172032-2976x2060.jpg">
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+        <div class="modal-footer hstackjustify-content-start">
+            <font class="" size="3%" id="long_lat_ping" style="width: 80%;"></font>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
       </div>
     </div>
   </div>
@@ -339,7 +341,7 @@
                 
                 map.addEventListener('mapviewchangeend', function(){
                   console.log(map.getZoom())
-                  if (map.getZoom() < 8.4){
+                  if (map.getZoom() < 9.7){
                     console.log("TOO BIG")
                     for (i in map.getObjects()) {
                       console.log(map.getObjects()[i]);
@@ -450,6 +452,7 @@
                               }
                               ext_info = document.getElementById("ext_info");
                               ext_info.innerHTML = response["extra_info"];
+                              document.getElementById("long_lat_ping").innerHTML = "Latitude: " + response["lat"] + " Longitude: " +  response["long"];
                               
 
                           });
