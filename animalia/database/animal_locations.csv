@@ -1,6 +1,6 @@
-key,species,latitude,longitude,type,info
-0,Tom,52.05994,4.3238936,animal,A very confused chicken
-1,Bilbo,5,131,plant,just sitting there
-2,Bob,15.13,1,animal,"What is a bob, a type of fluffy guinea pig?"
-3,Guinea Pig,52.0413994,4.2238936,Animal,"There are 4 guinea pigs at this location: Snowball, Fireball, Aagje, Fluffy"
+key,species,latitude,longitude,type,date,info
+0,Tom,52.05994,4.3238936,animal,"05/06/2021",A very confused chicken
+1,Bilbo,5,131,plant,"05/06/2021",just sitting there
+2,Bob,15.13,1,animal,"05/06/2021","What is a bob, a type of fluffy guinea pig?"
+3,Guinea Pig,52.0413994,4.2238936,Animal,"05/06/2021","There are 4 guinea pigs at this location: Snowball, Fireball, Aagje, Fluffy"
 

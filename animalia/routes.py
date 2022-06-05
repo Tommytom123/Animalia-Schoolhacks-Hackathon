@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, jsonify
 import pandas as pd
 from csv import writer
 from animalia import app
+import random
 
 @app.route("/")
 def home():                              
@@ -18,7 +19,8 @@ def fetch():                              #Request specific animal data
         return {
             'species' : data["species"][key],
             'type' : data["type"][key],
-            'extra_info' : data["info"][key]
+            'extra_info' : data["info"][key],
+            'date' : data["date"][key]
         }
     return render_template("Home.html")
 
@@ -51,14 +53,21 @@ def submit():                              #Request specific animal data
 @app.route("/search", methods=["GET", "POST"])
 def search():                              #Search for all occurences of animal 
     if request.method == "POST":
-        keys_list = []
+        lat_list = []
+        long_list = []
         jsonData = request.get_json()
         csv_data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv")
-        for x in range(len(csv_data["keys"])):
-            if jsonData["species"] == csv_data[x]["species"]:
-                keys_list.append(x)
-                keys_list.to_json(None, indent = 1, orient = 'records')
+        for x in range(len(csv_data["key"])):
+            if jsonData["species_search"] == csv_data["species"][x]:
+                lat_list.append(csv_data["latitude"][x])
+                long_list.append(csv_data["longitude"][x])
+        #keys_list.to_json(None, indent = 1, orient = 'records')
+        if len(lat_list) > 21: #If the list is too large, get random values
+            random.seed(random.randint(1,10000))#We need to create a seed so both the .choice functions result in the same index
+            lat_list = random.sample(lat_list, 21)
+            long_list = random.sample(long_list, 21)
         return {
-            'keys' : keys_list
+            'lats' : lat_list,
+            'longs' : long_list
         }
     return render_template("Home.html")

@@ -38,7 +38,7 @@
     <div class="modal fade" id="submit_sighting" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="background-color: #c5e0acb7;">
             <h5 class="modal-title" id="submit_title">Submit Sighting</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
           </div>
@@ -53,6 +53,10 @@
               <input type="text" class="form-control" placeholder="Latitude" aria-label="lat" aria-describedby="button-addon2" id="lat">
               <input type="text" class="form-control" placeholder="Longitude" aria-label="long" aria-describedby="button-addon2" id="long">
               <button class="btn btn-outline-secondary" style="width: 15%;" onclick="autofill()" id="type">Auto</button>
+            </div>
+            <div>
+              <input type="date" class="form-control" aria-label="long" id="date">  
+
             </div>
 
 
@@ -71,8 +75,11 @@
                 btn = document.getElementById("type");
                 if (btn.innerHTML == "Animal") {
                   btn.innerHTML = "Plant";
+                  btn.style.backgroundColor = "#bcdba1";
+
                 } else {
                   btn.innerHTML = "Animal";
+                  btn.style.backgroundColor = "#FB6D4E";
                 }
               }
 
@@ -122,7 +129,7 @@
   <div class="modal fade" id="info_popup" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" id="title_bg">
           <h5 class="modal-title" id="info_title">{animal_name}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -140,14 +147,13 @@
     <div class="menu">
         <div class="card border-secondary" style="width: 100%; height: 98%;">
           <font style="font-family: Pacifico; background-color: #bcdba1;" size="10rem" class="card-header text-center">Animalia</font>
-          <div class="card-body">
+          <div class="card-body d-flex flex-column ">
             <center>
-            <form>
+            
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search Species" aria-label="species_search" aria-describedby="basic-addon2">
-                <button class="btn btn-outline-secondary" type="button">Search</button>
+                <input type="text" class="form-control" placeholder="Search Species" id="search_input" aria-label="search_input" aria-describedby="basic-addon2">
+                <button class="btn btn-outline-secondary" type="button" onclick="search_species()">Search</button>
               </div>
-            </form>
             <button class="btn btn-outline-secondary mb-3" style="width: 100%;">Predict suitable locations</button>
             <button class="btn btn-outline-secondary mb-3" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#submit_sighting">Submit Sighting</button> <br>
             <div style="max-height: 90vh; overflow-y: auto;">
@@ -155,7 +161,7 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Random Animals</th>
+                  <th scope="col" id="table_title">Random Animals</th>
                   <th scope="col">Go To</th>
                 </tr>
               </thead>
@@ -166,9 +172,9 @@
               </tbody>
             </table>
           </div>
-          
-            <font class="" size="3%" id="location" style="width: 100%;"></font>
-            <nav class="" aria-label="breadcrumb" style="padding-left: 15%; padding-right: 14%; width: 100%;">
+          <font class="" size="3%" id="location" style="width: 100%; position: static;"></font> <!-- I can't get this bar to stick to the bottom when the table is empty-->
+          <div class="justify-content-center" >
+            <nav aria-label="breadcrumb" style="padding-left: 15%; padding-right: 14%; width: 100%; position: absolute; bottom: 0 ">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Statistics</a></li> <!-- Would show statistics about the quantity of pings, of which type they are and most pinged animal-->
                 <li class="breadcrumb-item"><a href="#">Admin</a></li> <!--Intended features: allow people with admin key to delete pings-->
@@ -177,11 +183,46 @@
             </nav>
             
             </center>
+            </div>
           </div>
 
         </div>
         <script>
-          function search_species
+          function search_species(){
+            search_value = document.getElementById("search_input").value;
+            if (/^\s*$/.test(search_value) != true){ // Checks if the search isn't empty or full of whitespaces
+
+            fetch('/search', {
+                        headers : {
+                            'Content-Type' : 'application/json'
+                        },
+                        method : 'POST',
+                        body : JSON.stringify( {
+                            'species_search' : document.getElementById("search_input").value
+                        })
+                    })
+                    .then(function (data){
+                        if(data.ok) {
+                          data.json()
+                          .then(function(data) {
+                            document.getElementById("table_title").innerHTML = "Searched animals";
+                            table = document.getElementById("table_rand_anims");
+                            table.innerHTML = "";
+                            for (let i = 0; i<data["lats"].length; i++){
+                              table.innerHTML += "<tr><th scope=\"row\">"+ (i+1) +"</th> <td>"+ search_value +"</td> <td><a href=\"#\" onclick=\"zoom_to_loc("+ data["lats"][i] +","+ data["longs"][i] +")\">Find</a></td></tr>";
+                            }
+                            map.setCenter({lat: data["lats"][0],lng: data["longs"][0]})
+                          });
+                        }
+                        else {
+                            throw Error('Something went wrong');
+                        }
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+          }
+        }
 
         </script>
       </div>
@@ -381,10 +422,6 @@
                 
                 function popup_info(key) { //Each enimal has a key/which item they are in the CSV
                     console.log("ping clicked")
-                    
-                    info_popup = document.getElementById("info_popup")
-                    $("#info_popup").modal("toggle");
-
                     fetch('/fetch', {
                       headers : {
                           'Content-Type' : 'application/json'
@@ -400,11 +437,19 @@
                           response.json()
                           .then(function(response) {
                               console.log(response);
-                              
+                              info_popup = document.getElementById("info_popup");
+                              $("#info_popup").modal("toggle");
+                              title_bg = document.getElementById("title_bg");
                               info_title = document.getElementById("info_title");
-                              info_title.innerHTML = response["species"]
-                              ext_info = document.getElementById("ext_info")
-                              ext_info.innerHTML = response["extra_info"]
+                              info_title.innerHTML = response["species"] + "       (" + response["date"] + ")";
+                              console.log(response["type"])
+                              if (response["type"] == "Animal"){
+                                title_bg.style.backgroundColor = "#FB6D4E";
+                              } else {
+                                title_bg.style.backgroundColor = "#bcdba1";
+                              }
+                              ext_info = document.getElementById("ext_info");
+                              ext_info.innerHTML = response["extra_info"];
                               
 
                           });
