@@ -39,11 +39,11 @@ def submit():                              #Request specific animal data
     if request.method == "POST":
         print("Arrived")
         data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv")
-        with open("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv", 'a') as f_object:
+        with open("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv", 'a', newline="") as f_object:
             writer_object = writer(f_object)
             jsonData = request.get_json()
             print(jsonData)
-            data_list = [len(data["key"]),jsonData["species"],jsonData["lat"],jsonData["long"],jsonData["type"],jsonData["description"]]
+            data_list = [len(data["key"]),jsonData["species"],jsonData["lat"],jsonData["long"],jsonData["type"],jsonData["date"],jsonData["description"]]
             writer_object.writerow(data_list)
             f_object.close()
 
@@ -58,7 +58,7 @@ def search():                              #Search for all occurences of animal
         jsonData = request.get_json()
         csv_data = pd.read_csv("C:\\Users\\Tom Brouwers\\Documents\\Python\\Animalia\\Animalia-Schoolhacks-Hackathon\\animalia\\database\\animal_locations.csv")
         for x in range(len(csv_data["key"])):
-            if jsonData["species_search"] == csv_data["species"][x]:
+            if jsonData["species_search"] in csv_data["species"][x]:
                 lat_list.append(csv_data["latitude"][x])
                 long_list.append(csv_data["longitude"][x])
         #keys_list.to_json(None, indent = 1, orient = 'records')
@@ -71,3 +71,4 @@ def search():                              #Search for all occurences of animal
             'longs' : long_list
         }
     return render_template("Home.html")
+
